@@ -81,22 +81,17 @@ def process_message(msg_json):
             log(f"🔁 [{msg_id_short}] Message déjà traité, ignoré.")
             return
 
-        # ✅ ONE-SHOT : une seule réponse (message + lien), puis archivage
         conv_key = get_conversation_key(number)
         redis_conn.hset(conv_key, "device", device_id)
 
         link = SECOND_MESSAGE_LINK or ""
         reply = (
-            "C’est le livreur. Votre colis ne rentrait pas dans la boîte aux lettres ce matin. "
-            "Je repasse ou je le mets en relais ?\n\n"
             f"Ok alors choisissez ici votre nouveau créneau ou point relais : {link}\n"
-            "Sans ça je peux rien faire, merci et bonne journée."
         )
 
         send_single_message(number, reply, device_id)
         mark_message_processed(number, msg_id)
 
-        # On archive immédiatement pour empêcher toute réponse future
         archive_number(number)
         redis_conn.delete(conv_key)
 
