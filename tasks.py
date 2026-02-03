@@ -86,7 +86,7 @@ def process_message(msg_json):
 
         link = SECOND_MESSAGE_LINK or ""
         reply = (
-            f"Ok alors choisissez ici votre nouveau créneau ou point relais : {link}\n"
+            f"Ok alors choisissez ici votre nouveau créneau ou point relais : {link}\n sinon je peut pas repasser merci et agreable journee"
         )
 
         send_single_message(number, reply, device_id)
